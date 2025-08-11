@@ -69,14 +69,16 @@ if __name__ == '__main__':
     list1 = [0, 1, 2]
     list2 = [3, 4, 5]
 
+    joined_list = list1 + list2
+    print(f'Joined list = {joined_list}')
+    print(f'List1 = {list1}')
+    print(f'List2 = {list2}')
+
     for e in list2:
         list1.append(e)
 
     list1.extend(list2)
     print(list1)
-
-    joined_list = list1 + list2
-    print(joined_list)
 
     last_element = joined_list.pop()
     print(joined_list)
@@ -91,3 +93,5 @@ if __name__ == '__main__':
 
     random_list_4 = [random.randint(1, 10) for i in range(10)]
     print(random_list_4)
+
+    # Napisz kod który umieści w liście 10 kolejnych potęg liczby 2 uzywajac list składanych. 2 ** 2 = 4, 2 ** 3 = 8
