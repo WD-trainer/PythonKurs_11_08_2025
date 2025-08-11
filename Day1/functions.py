@@ -189,3 +189,8 @@ if __name__ == '__main__':
 
     zapisz_parametry_do_pliku('mojplik2.csv', **parametry)
 
+    # Stworz funkcje "config" ktora bedzie otrzymywala argumenty kwargs bedace ustawieniami.
+    # Funkcja ta ma zapisac podane argumenty do pliku config.csv w 2 kolumnach z czego pierwsza jest nazwa
+    # argumentu a druga jego wartoscia. Jesli dane argument juz istnieje w pliku to trzeba bedzie tylko zaktualizowac
+    # jego wartosc, jesli jeszcze go nie ma to trzeba go bedzie dodac do pliku.
+
