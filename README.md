@@ -38,3 +38,14 @@ jakoś pomóc. Ewentualna pomoc
 
 
 ### Dane do hostów:
+
+
+| ID 	| NAME      	| PUBLIC IP ADDRESS 	|
+|:--:	|-----------	|------------------:	|
+|  1 	| Jan       	|      4.180.225.53 	|
+|  2 	| Łukasz    	|      20.224.50.13 	|
+|  3 	| Sylwia    	|   108.143.208.154 	|
+|  4 	| Szymon    	|     51.136.115.94 	|
+|  5 	| Jakub     	|   108.143.216.218 	|
+|  6 	| Anna      	|      4.231.16.244 	|
+|  7 	| Katarzyna 	|       20.86.9.145 	|
