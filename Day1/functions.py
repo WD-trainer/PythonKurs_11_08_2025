@@ -52,3 +52,76 @@ if __name__ == '__main__':
     zastosuj_dla_wszystkich(tytul, 'siała', 'baba', 'mak', )
 
     # Stwórz funkcję która wydrukuje na konsoli sumę wartości przekazanych do niej jako *args
+    def moja_suma(*liczby: tuple[int, ...]) -> int:
+        suma = 0
+        for i in liczby:
+            suma += i
+        return suma
+
+    # def moja_suma(*liczby: tuple[int, ...]) -> int:
+    #    return sum(liczby)
+
+    suma = moja_suma(1, 2, 3, 4, 5, 15, 18, 50)
+    suma2 = moja_suma(1, 2, 3, 4, 5, 15, 18, 50, 10, 4, 3, 4, 5, 6, 7, 8, 9)
+    print(suma)
+
+
+    #################################
+
+    list1 = [1, 2, 3]
+    list2 = [4, 5]
+    list3 = [6, 7, 8, 9]
+
+    print(moja_suma(*list1, *list2, *list3))  # *list1 = 1,2,3
+
+    def my_sum(a, b, c):
+        print(f"a={a}")
+        print(a + b + c)
+
+
+    my_sum(*list1)  # my_sum(1,2,3)
+
+    slownik = {"c": 2, "a": 4, "b": 3}
+    my_sum(**slownik)  # my_sum(a=4,b=3,c=2) -- działa bo argumenty się nazywają tak jak klucze w słowniku
+
+
+    def pomnoz_razy_dwa(x):
+        return x * 2
+
+    def podziel_przez_trzy(x):
+        return x / 3
+
+    def dodaj_piec(x):
+        return x + 5
+
+
+    funkcje = [pomnoz_razy_dwa, podziel_przez_trzy, dodaj_piec]
+
+    def aplikuj(wartosc: int, *funckje) -> float:
+        for f in funckje:
+            wartosc = f(wartosc)
+        return wartosc
+
+
+    print(aplikuj(1, *funkcje))
+    print(aplikuj(1, pomnoz_razy_dwa, podziel_przez_trzy, dodaj_piec, times2))
+
+
+    def wiele_argumentów(*args):
+        ile_ich = len(args)
+        print(ile_ich)
+        for element in args:
+            print(element, type(element))
+            if isinstance(element, str):
+                print(f"znalazłem str na *args i to jest {element}")
+
+
+    wiele_argumentów([1], "abc", 1.0, 123, "Moj super kurs pythona")
+
+
+    # Napisz funkcję process_data, która:
+    #
+    # Przyjmuje dowolną liczbę argumentów pozycyjnych (*args), które mogą być liczbami, stringami lub listami.
+    # Jeśli argument jest liczbą, dodaje ją do wyniku.
+    # Jeśli argument jest stringiem, konkatenuje go do napisu (łączy wszytkie napisy w jeden).
+    # Jeśli argument jest listą, sumuje wszystkie jej elementy.
