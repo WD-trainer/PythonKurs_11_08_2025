@@ -124,7 +124,7 @@ if __name__ == '__main__':
     # Przyjmuje dowolną liczbę argumentów pozycyjnych (*args), które mogą być liczbami, stringami lub listami.
     # Jeśli argument jest liczbą, dodaje ją do wyniku.
     # Jeśli argument jest stringiem, konkatenuje go do napisu (łączy wszytkie napisy w jeden).
-    # Jeśli argument jest listą, sumuje wszystkie jej elementy.
+    # Jeśli argument jest listą, sumuje wszystkie jej elementy. Powinno sumować wiele list razem
     def process_data(*args):
         total_sum = 0
         concatenated_string = ""
@@ -146,13 +146,46 @@ if __name__ == '__main__':
     print(result)  # Wyjście: (4, "HelloWorld", 10)
 
 
+    #######################################################
+
+    def parametr_kwargs(**kwargs):
+        for k in kwargs:
+            print(k, kwargs[k])
+
+    parametr_kwargs(dodatkowy=48, nastepny=111)
 
 
+    def funkcja_przykladowa(arg1, *args, **kwargs):
+        print("arg1:", arg1)
+        print("args:", args)
+        print("kwargs:", kwargs)
 
-    # def funkcja_przykladowa(arg1, *args, **kwargs):
-    #     print("arg1:", arg1)
-    #     print("args:", args)
-    #     print("kwargs:", kwargs)
-    #
-    #
-    # funkcja_przykladowa(1, 2, 3, 4, imie='Anna', wiek=30)
+
+    funkcja_przykladowa(1, 2, 3, 4, imie='Anna', wiek=30)
+
+
+    def zapisz_parametry_do_pliku(nazwa_pliku, **parametry):
+        plik = open(nazwa_pliku, mode='w', encoding='utf-8')
+        for p in parametry:
+            plik.write(f'{p};{parametry[p]}\n')
+        plik.close()
+
+    zapisz_parametry_do_pliku('mojplik.csv', parametr1='wartość 1', parametr2=2,
+                              moj_argument="Jestesmy zmeczeni bardzo")
+
+
+    studenci = {
+        "1001": {'imie': 'Jan', 'nazwisko': 'Kowalski', 'wiek': 21, 'oceny': [4, 3, 5, 4]},
+        "1002": {'imie': 'Anna', 'nazwisko': 'Nowak', 'wiek': 22, 'oceny': [5, 5, 4, 5]},
+        "1003": {'imie': 'Marek', 'nazwisko': 'Zielinski', 'wiek': 23, 'oceny': [3, 4, 2, 3]},
+        "1004": {'imie': 'Zofia', 'nazwisko': 'Wiśniewska', 'wiek': 20, 'oceny': [4, 4, 4, 4]},
+        "1005": {'imie': 'Krzysztof', 'nazwisko': 'Wojcik', 'wiek': 24, 'oceny': [2, 3, 2, 3]}
+    }
+
+    zapisz_parametry_do_pliku('mojplik.csv', parametr1='wartość 1', parametr2=2,
+                              moj_argument="Jestesmy zmeczeni bardzo", **studenci)
+
+    parametry = {"param1": 1, "param2": 2, "param3": 3}
+
+    zapisz_parametry_do_pliku('mojplik2.csv', **parametry)
+
