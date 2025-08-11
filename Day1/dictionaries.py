@@ -98,3 +98,21 @@ if __name__ == '__main__':
 
     # Oblicz średnią ocenę dla każdego studenta i dodaj ją do ich słownika
     # studenci[id_studenta]['srednia_ocen'] = 4.5
+    for id_studenta in studenci:
+        oceny = studenci[id_studenta]['oceny']
+        srednia = sum(oceny) / len(oceny)
+        studenci[id_studenta]['srednia_ocen'] = srednia
+
+    print(studenci)
+
+    ###############
+
+    # dict comprehension
+    new_dict = {i: 2 ** i for i in range(5)}  # składnia slownik = { klucz: wartosc for element in lista_wartosci}
+
+    nazwiska = ['Kowalski', 'Nowak', 'Zielinski', 'Wiśniewska', 'Wojcik']
+    dlugosci_nazwisk = {nazwisko: len(nazwisko) for nazwisko in nazwiska if len(nazwisko) > 6}
+    print(dlugosci_nazwisk)
+
+    #  Znajdź studentów, którzy mają średnią ocenę powyżej 4.0, stworz słownik id: słownik
+    # studenci.items()  ---> klucz i wartosc    wartosc['kluczem']
