@@ -191,6 +191,22 @@ if __name__ == '__main__':
 
     # Stworz funkcje "config" ktora bedzie otrzymywala argumenty kwargs bedace ustawieniami.
     # Funkcja ta ma zapisac podane argumenty do pliku config.csv w 2 kolumnach z czego pierwsza jest nazwa
-    # argumentu a druga jego wartoscia. Jesli dane argument juz istnieje w pliku to trzeba bedzie tylko zaktualizowac
+    # argumentu a druga jego wartoscia. Jesli dany argument juz istnieje w pliku to trzeba bedzie tylko zaktualizowac
     # jego wartosc, jesli jeszcze go nie ma to trzeba go bedzie dodac do pliku.
 
+    def config(filename, **params):
+        loaded_config = {}
+        with open(filename, mode="r", encoding='utf-8') as file:
+            for line in file:
+                if line.isspace():
+                    continue
+                key, value = line.split(';')
+                loaded_config[key] = value
+
+    # TODO: aktualizacja wartosci loaded_config
+
+    # TODO: zapis loaded_config do pliku (tego samego)
+
+
+
+    config("plik.csv", wersja=1, arg=2, argument321=3, parametr1="wartość 2")
