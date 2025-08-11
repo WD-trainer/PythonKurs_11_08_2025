@@ -125,3 +125,34 @@ if __name__ == '__main__':
     # Jeśli argument jest liczbą, dodaje ją do wyniku.
     # Jeśli argument jest stringiem, konkatenuje go do napisu (łączy wszytkie napisy w jeden).
     # Jeśli argument jest listą, sumuje wszystkie jej elementy.
+    def process_data(*args):
+        total_sum = 0
+        concatenated_string = ""
+        list_sum = 0
+
+        for item in args:
+            if isinstance(item, int) or isinstance(item, float):
+                total_sum += item
+            elif isinstance(item, str):
+                concatenated_string += item
+            elif isinstance(item, list):
+                list_sum += sum(item)
+
+        return total_sum, concatenated_string, list_sum
+
+
+    # Test
+    result = process_data(1, "Hello", [1, 2], 3, "World", [3, 4])
+    print(result)  # Wyjście: (4, "HelloWorld", 10)
+
+
+
+
+
+    # def funkcja_przykladowa(arg1, *args, **kwargs):
+    #     print("arg1:", arg1)
+    #     print("args:", args)
+    #     print("kwargs:", kwargs)
+    #
+    #
+    # funkcja_przykladowa(1, 2, 3, 4, imie='Anna', wiek=30)
