@@ -203,10 +203,166 @@ if __name__ == '__main__':
                 key, value = line.split(';')
                 loaded_config[key] = value
 
-    # TODO: aktualizacja wartosci loaded_config
+        # TODO: aktualizacja wartosci loaded_config
+        for key_params in params:
+            loaded_config[key_params] = params[key_params]
 
-    # TODO: zapis loaded_config do pliku (tego samego)
-
+        # TODO: zapis loaded_config do pliku (tego samego)
+        with open(filename, mode="w", encoding='utf-8') as file:
+            for key in loaded_config:
+                file.write(f'{key};{loaded_config[key]}\n')
 
 
     config("plik.csv", wersja=1, arg=2, argument321=3, parametr1="wartość 2")
+    config("plik.csv", arg_inny=2, argument321=10, wersja=2.0)
+
+    ##############################################
+
+    def zewnetrzna(x):
+        def wewnetrzna(x):
+            return x * 2
+
+        print(wewnetrzna(x))
+        return 1
+
+    print(zewnetrzna(x=5))
+
+
+    # funkcja zwracajaca funkcje
+    def outer(x):
+        def inner(y):
+            return x + y
+
+        return inner
+
+    dodaj_dwa = outer(2)
+    wynik = dodaj_dwa(7)
+    print(wynik)
+
+    def create_formatter(prefix="", suffix=""):
+        return lambda text: f"{prefix}{text}{suffix}"
+
+    important = create_formatter("!!! ", " !!!")
+    print(important("Błąd krytyczny"))  # !!! Błąd krytyczny !!!
+
+
+    def retry(delay, retries, func):
+        def wrapper(*args, **kwargs):
+            for _ in range(retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    time.sleep(delay)
+                    print(f"Retrying after {delay} seconds...")
+            raise Exception("Max retries reached")
+
+        return wrapper
+
+
+    # Funkcja, która czasem się "wysypie"
+    def unstable_function():
+        if random.random() < 0.7:  # 70% szans na błąd
+            raise ValueError("Losowy błąd!")
+        return "Sukces!"
+
+    # Tworzymy wersję z automatycznymi ponownymi próbami
+    safe_function = retry(delay=1, retries=5, func=unstable_function)
+
+    try:
+        result = safe_function()
+        print(result)
+    except Exception as e:
+        print("Nie udało się wykonać funkcji:", e)
+
+
+    ############################################## ##############################################
+
+    # Do analizy własnej jak to zadziała
+    def create_filter(criteria):
+
+        def filter_function(data):
+            return [
+                item for item in data
+                if all(item.get(key) == value for key, value in criteria.items())
+            ]
+
+        return filter_function
+
+
+    # Przykład użycia:
+    data = [
+        {"name": "Alice", "age": 25, "city": "New York"},
+        {"name": "Bob", "age": 30, "city": "Los Angeles"},
+        {"name": "Charlie", "age": 35, "city": "Chicago"},
+        {"name": "Alice", "age": 30, "city": "Chicago"}
+    ]
+
+    # Tworzymy filtr dla osób z Chicago w wieku 30 lat
+    chicago_30_filter = create_filter({"city": "Chicago", "age": 30})
+
+    # Używamy wygenerowanej funkcji do filtrowania danych
+    filtered_data = chicago_30_filter(data)
+    print(filtered_data)
+
+    ############################################## ##############################################
+
+
+    # Napisz funkcje która będzie tworzyła listę liczb parzystych lub nieparzystych w danym zakresie
+    # funkcje do sprawdzenia parzystosci napisz jako funckje wewnętrzne i w zależności
+    # od przekazanego parametru wywołuj odpowiednią
+    # range(start, koniec)
+
+
+
+
+
+
+
+
+
+    ############################################## ##############################################
+
+
+    # rekurencja
+
+    # fn(0,1) = 1
+    # fn(2) = fn(1) + fn(0)
+    # fn(3) = fn(2) + fn(1)
+
+    @functools.lru_cache()
+    def fibonacci(num):
+        print(f"Calculating fibonacci({num})")
+        if num < 2:
+            return num
+        return fibonacci(num - 1) + fibonacci(num - 2)
+
+
+    poczatek = datetime.now()
+    fibonacci(20)
+    koniec = datetime.now()
+    print(f'Fibonnaci time: {koniec - poczatek}')
+
+
+    # def list_files(path):
+    #     for entry in os.listdir(path):
+    #         full_path = os.path.join(path, entry)
+    #         if os.path.isdir(full_path):
+    #             list_files(full_path)  # rekurencja w podfolder
+    #         else:
+    #             print(full_path)
+    #
+    #
+    # list_files("E:\PythonKurs_11_08_2025")
+
+    @functools.lru_cache()
+    def dluga_funkcja():
+        time.sleep(5)
+        print("liczy sie")
+        return 1
+
+    poczatek = datetime.now()
+    for i in range(100):
+        dluga_funkcja()
+    koniec = datetime.now()
+    print(f'Ile czasu nam to zajęło: {koniec - poczatek}')
+
