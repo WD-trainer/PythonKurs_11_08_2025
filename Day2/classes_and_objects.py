@@ -181,6 +181,7 @@ print(f'Rectangle {r.dlugosc_a}, {r.b}')
 # wzor na bmi = masa / (wzrost ** 2)   wzrost podany w metrach 1.84
 # Powołaj do życia obiekt tej klasy i wyświetl na konsoli obliczone BMI.
 # dodac metode __str__
+@total_ordering
 class Zawodnik:
     def __init__(self, wzrost: float, masa: float, imie: str):
         self.__wzrost = wzrost
@@ -217,7 +218,24 @@ class Zawodnik:
 
     # odczytali dane z pliku dane.txt
     # zbudowali sobie liste zawodnikow (jako obietky klasy) przy uzyciu  @classmethod
+    @classmethod
     def create_from_file(cls, path_to_file: str) -> list:
+        zawodnicy = []
+        with open(path_to_file, "r") as plik:
+            for linia in plik:
+                dane = linia.strip().split(";")
+                if len(dane) == 3:
+                    imie, waga, wzrost = dane
+                    zawodnicy.append(cls(masa=float(waga), wzrost=float(wzrost), imie=imie))
+        return zawodnicy
+
+    def __lt__(self, other):
+        return self.BMI < other.BMI
+
+    def __eq__(self, other):
+        return self.imie == other.imie
+
+
 
 
 z = Zawodnik(1.8, 80, "Jan")
@@ -226,11 +244,33 @@ print(z)
 z.waga = 75
 print(z)
 
-Zawodnik.nie_uzywam_atrybutow()
+Zawodnik.nie_uzywam_atrybutow("cos sobie pisze")
 
 
 z3 = Zawodnik.create_from_string("176;150;Paweł")
 print(z3)
+
+
+
+print("*" * 50)
+
+list_zawodnikow = Zawodnik.create_from_file("dane.txt")
+print(list_zawodnikow[0])
+
+print("*" * 50)
+
+lista_posortowana = sorted(list_zawodnikow, key= lambda zawodnik: zawodnik.BMI)
+for z in lista_posortowana:
+    print(z)
+
+print("*" * 50)
+
+list_zawodnikow.sort()
+for z in list_zawodnikow:
+    print(z)
+
+
+
 
 
 class MathUtils:
@@ -244,13 +284,6 @@ class MathUtils:
 
 
 MathUtils.add(2,2)
-
-
-
-
-
-
-
 
 
 ########## Atrybuty domyślne mutowalne ###################
@@ -292,3 +325,175 @@ bag2.add_item("banan")
 
 print("Zawartość bag1:", bag1.items)
 print("Zawartość bag2:", bag2.items)
+
+
+# https://realpython.com/python-magic-methods/
+class Vector2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f'Vector({self.x}, {self.y})'
+
+    def __str__(self):
+        return f'({self.x}, {self.y})'
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __add__(self, other):
+        return Vector2D(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other):
+        return Vector2D(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, scalar):
+        return Vector2D(self.x * scalar, self.y * scalar)
+
+    def __len__(self):
+        return 2
+
+    def __getitem__(self, index):
+        if index == 0:
+            return self.x
+        elif index == 1:
+            return self.y
+        else:
+            raise IndexError("Index out of range")
+
+    def __setitem__(self, index, value):
+        if index == 0:
+            self.x = value
+        elif index == 1:
+            self.y = value
+        else:
+            raise IndexError("Index out of range")
+
+    def __iter__(self):
+        yield self.x
+        yield self.y
+
+    def __contains__(self, value):   # in
+        return value == self.x or value == self.y
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+
+v1 = Vector2D(3, 4)
+v2 = Vector2D(5, 6)
+
+print(repr(v1))
+print(str(v2))
+
+print(v1 == v2)  # __eq__
+print(v1 + v2)  # __add__: Vector(8, 10)
+print(v2 - v1)
+print(v1 * 2)
+
+print(len(v1))  # __len__: 2
+print(v1[0], v1[1])  # __getitem__: 3 4
+
+for coordinate in v2:  # __iter__
+    print(coordinate)
+
+print(5 in v2)  # __contains__
+
+hash_value = hash(v1)  # __hash__
+print(hash_value)
+
+v1[0] = 15  # __setitem__
+print(v1)
+
+
+
+#################################################### CWICZENIE DODATKOWE
+
+# Stwórz klasę Ustawienia która będzie w momencie tworzenia obiektu czytac plik ustawienia.csv o treści:
+# encoding;utf-8
+# language;pl
+# timezone;-2
+# Dane te mają zostać wczytane do wewnętrznego słownika tak, by pierwsza kolumna stanowila klucze a druga wartosci.
+# Obiekt ma umożliwiać sprawdzanie ustawień w ten sposób:
+# u=Ustawienia()
+# print( u['encoding'] )
+# Obiekt ma umożliwiać też ustawienie wartości na zasadzie u[‘nazwa’]=’wartosc’.
+# W przypadku zmiany powinna ona dotyczyć również zawartości pliku.
+
+#################################################### CWICZENIE DODATKOWE
+
+
+
+
+class FakeDatabase:
+    def __init__(self, db_name):
+        self.db_name = db_name
+        self.connected = False
+
+    def __enter__(self):
+        # Symulacja otwarcia połączenia do bazy
+        print(f"Łączenie z bazą danych '{self.db_name}'...")
+        self.connected = True
+        return self  # zwracamy obiekt do użytku w bloku with
+
+    def write(self, record):
+        if not self.connected:
+            raise RuntimeError("Nie połączono z bazą danych!")
+        # Symulacja zapisu rekordu
+        print(f"Zapisuję rekord do '{self.db_name}': {record}")
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Symulacja zamknięcia połączenia z bazą
+        print(f"Zamykam połączenie z bazą danych '{self.db_name}'.")
+        self.connected = False
+        # Jeśli wystąpił wyjątek, nie obsługujemy go (zwrotem False)
+        return False
+
+
+# Użycie:
+with FakeDatabase("MojaBaza") as db:
+    db.write({"id": 1, "name": "Jan"})
+    db.write({"id": 2, "name": "Anna"})
+
+print("Po bloku with - połączenie zamknięte")
+
+
+
+# Napisz klase Timer która będzie mierzyła czas wykonania funkcji jako context menager.
+# klasa ta w zaleznosci od zmiennej verbose bedzie wypisywała na ekran czas wykonania przy wyjsciu z contextu
+# from timeit import default_timer as timer
+#timer_obj = timer
+#start = timer_obj()
+# cos co mierzymy
+#end = timer_obj()
+
+#def __enter__(self):
+#def __exit__(self, *args):
+
+class Timer:
+    """
+    Tu generalny opis do czego jest klasa
+    """
+    def __init__(self, verbose: bool):
+        """
+
+        Parameters
+        ----------
+        verbose
+        """
+        self.timer = timer
+        self.elapsed = 0
+        self.verbose = verbose
+        self.start = 0
+
+
+
+
+
+with Timer(verbose=True) as t:
+    time.sleep(3)
+    print("Moja bardzo długa funkcja")
+
+
+print(f'Ta funkcja trwała {t.elapsed}')

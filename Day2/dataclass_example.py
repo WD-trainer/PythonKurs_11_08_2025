@@ -24,7 +24,7 @@ print(p1.total_cost())     # 9000.0
 
 from dataclasses import dataclass
 
-@dataclass
+@dataclass              # https://docs.python.org/3/library/dataclasses.html
 class ProductDataclass:
     name: str
     price: float
