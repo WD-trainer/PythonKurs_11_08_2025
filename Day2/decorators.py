@@ -168,13 +168,21 @@ if __name__ == '__main__':
     # Dodaj dekorator który zliczy czas wykonywania funkcji z parametrami.
     # Zaloguj na konsole wszystkie przekazane parametry (czyli args i kwargs)
     # wypisz wynik opakowanej funkcji
+    def licz_czas_i_loguj(fun):
+        def wewnetrzna(*args, **kwargs):
+            print(f'Argumenty {args}')
+            print(f'Key-word arguments {kwargs}')
+            poczatek = datetime.now()
+            value = fun(*args, **kwargs)
+            koniec = datetime.now()
+            print(f'wywolanie trwalo {koniec - poczatek}')
+            print(f'Wynik dzialania funkcji {value}')
+            return value
+
+        return wewnetrzna
 
 
-
-
-
-
-
+    @licz_czas_i_loguj
     def opakuj_mnie_z_parametrami(x, napis_do_wypisania):
         for i in range(x):
             time.sleep(1)
@@ -182,4 +190,5 @@ if __name__ == '__main__':
         return 10
 
 
-    opakuj_mnie_z_parametrami(x=1, napis_do_wypisania="jestem cool")
+    returned_value = opakuj_mnie_z_parametrami(x=1, napis_do_wypisania="jestem cool")
+    print(returned_value)
