@@ -172,4 +172,75 @@ print(f'Rectangle {r.dlugosc_a}, {r.b}')
 # wzor na bmi = masa / (wzrost ** 2)   wzrost podany w metrach 1.84
 # Powołaj do życia obiekt tej klasy i wyświetl na konsoli obliczone BMI.
 
+class Zawodnik:
+    def __init__(self, wzrost: float, masa: float, imie: str):
+        self.__wzrost = wzrost
+        self._masa_zawodnika = masa
+        self._imie = imie
 
+    @property
+    def BMI(self) -> float:
+        return self._masa_zawodnika / (self.__wzrost ** 2)
+
+    @property
+    def waga(self) -> float:
+        return self._masa_zawodnika
+
+    @waga.setter
+    def waga(self, value: float):
+        self._masa_zawodnika = value
+
+
+z = Zawodnik(1.8, 80, "Jan")
+
+print(z.BMI)
+z.waga = 75
+print(z.BMI)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+########## Atrybuty domyślne mutowalne ###################
+
+# class Bag:
+#     def __init__(self, items=[]):  # Uwaga! Domyślna mutowalna lista
+#         self.items = items
+#
+#     def add_item(self, item):
+#         self.items.append(item)
+#
+# # Tworzymy dwie instancje klasy Bag
+# bag1 = Bag()
+# bag2 = Bag()
+#
+# bag1.add_item("jabłko")
+# bag2.add_item("banan")
+#
+# print("Zawartość bag1:", bag1.items)  # ['jabłko', 'banan']  <-- nieoczekiwane!
+# print("Zawartość bag2:", bag2.items)  # ['jabłko', 'banan']  <-- nieoczekiwane!
+
+########## Atrybuty domyślne mutowalne ###################
+
+# wersja poprawna
+# class Bag:
+#     def __init__(self, items=None):
+#         if items is None:
+#             items = []
+#         self.items = items
+#
+#     def add_item(self, item):
+#         self.items.append(item)
