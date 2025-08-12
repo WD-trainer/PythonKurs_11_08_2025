@@ -233,6 +233,9 @@ if __name__ == '__main__':
         def inner(y):
             return x + y
 
+        def wew():
+            print("Hello")
+
         return inner
 
     dodaj_dwa = outer(2)
@@ -311,11 +314,33 @@ if __name__ == '__main__':
     # funkcje do sprawdzenia parzystosci napisz jako funckje wewnętrzne i w zależności
     # od przekazanego parametru wywołuj odpowiednią
     # range(start, koniec)
+    def generuj_liczby(start: int = 0, koniec: int = 10, parzyste: bool = True) -> list[int]:
+        def parzysta(x: int) -> bool:
+            return x % 2 == 0
+
+        def nieparzysta(x: int) -> bool:
+            return x % 2 == 1
+
+        list_liczba = []
+        for i in range(start, koniec):
+            if parzyste and parzysta(i):
+                list_liczba.append(i)
+            elif not parzyste and nieparzysta(i):
+                list_liczba.append(i)
+
+        return list_liczba
 
 
 
+    print(generuj_liczby())
 
 
+    print(generuj_liczby(0, 20, parzyste=False))
+
+    # argumenty na wiele sposobów
+    print(generuj_liczby(parzyste=True, koniec=100, start=10))
+    print(generuj_liczby(10, parzyste=True, koniec=100))
+    print(generuj_liczby(10, 100, True))
 
 
 
