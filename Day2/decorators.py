@@ -169,6 +169,7 @@ if __name__ == '__main__':
     # Zaloguj na konsole wszystkie przekazane parametry (czyli args i kwargs)
     # wypisz wynik opakowanej funkcji
     def licz_czas_i_loguj(fun):
+        @functools.wraps(fun)
         def wewnetrzna(*args, **kwargs):
             print(f'Argumenty {args}')
             print(f'Key-word arguments {kwargs}')
@@ -184,11 +185,82 @@ if __name__ == '__main__':
 
     @licz_czas_i_loguj
     def opakuj_mnie_z_parametrami(x, napis_do_wypisania):
+        """
+          Ta funkcja spi przez x sekund a nastpenie wypisuje wiadomosc
+
+          Parameters
+          ----------
+          x : int
+          napis_do_wypisania
+
+          Returns
+          -------
+          Zwraca zawsze 10
+          """
         for i in range(x):
             time.sleep(1)
         print(f"Robie ciekawe rzeczy w Pythonie {napis_do_wypisania}")
         return 10
 
 
-    returned_value = opakuj_mnie_z_parametrami(x=1, napis_do_wypisania="jestem cool")
-    print(returned_value)
+    # returned_value = opakuj_mnie_z_parametrami(x=1, napis_do_wypisania="jestem cool")
+    # print(returned_value)
+
+    # print(opakuj_mnie_z_parametrami.__name__)
+    # print(opakuj_mnie_z_parametrami.__doc__)
+    # help(opakuj_mnie_z_parametrami)
+
+
+    def sleeper(sleep_time:float):
+        def sleeper_decorator(func):
+            @functools.wraps(func)
+            def inner(*args, **kwargs):
+                time.sleep(sleep_time)
+                returned_value = func(*args, **kwargs)
+                return returned_value
+
+            return inner
+
+        return sleeper_decorator
+
+
+    @sleeper(sleep_time=0.001)
+    def slow_add(a: float, b: float) -> float:
+        return a + b
+
+    print(f'Wynik dodawania 2+2=')
+    print(f'{slow_add(2, 2)}')
+
+
+    # Stwórz dekorator, który sprawdza, czy użytkownik ma odpowiednie uprawnienia
+    # do wywołania funkcji. Jeśli nie, wyświetli komunikat o braku dostępu.
+
+
+
+
+
+
+
+    user1 = {'name': 'Jan', 'permission': 'admin'}
+    user2 = {'name': 'Anna', 'permission': 'user'}
+
+
+    @check_permissions('user')
+    def user_function(user):
+        print(f"Witaj, użytkowniku {user['name']}")
+
+
+    @check_permissions('admin')
+    def admin_function(user):
+        print("Witaj, adminie!")
+
+
+    @check_permissions('admin')
+    def admin_function_2(user, user_to_delete):
+        print(f"Usuwam {user_to_delete}!")
+
+    admin_function(user1)  # Output: Witaj, adminie!
+    admin_function(user2)  # Output: Brak uprawnień do wykonania tej funkcji
+    user_function(user2)  # Output: Witaj, użytkowniku!
+    user_function(user1)  # Output: Brak uprawnień do wykonania tej funkcji
+
