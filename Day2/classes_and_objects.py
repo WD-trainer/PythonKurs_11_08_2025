@@ -66,10 +66,14 @@ print(repr(o3))
 
 # dopisz metody __str__ i __repr__ do klasy samochod
 class Samochod:
-    def __init__(self, marka: str, model:str, rejestracja: str, kierowca: Osoba = Osoba("Jan", "Nowak", 35)):
+    ile_kol = 4
+
+    def __init__(self, marka: str, model:str, rejestracja: str, kierowca: Osoba = None):
         self.marka = marka
         self.model = model
         self.rejestracja = rejestracja
+        if kierowca is None:
+            kierowca = Osoba("Jan", "Nowak", 35)
         self.__kierowca = kierowca
 
     def wypiszMnie(self):
@@ -83,6 +87,7 @@ class Samochod:
 
     def __napraw(self):
         self._funkcja_dla_mechanika()
+        #self.kiedy_kolejna_naprawa = "2026" # ZŁA praktyka
         print("Naprawiono")
 
     def _funkcja_dla_mechanika(self):
@@ -90,13 +95,17 @@ class Samochod:
 
 
 s = Samochod("Skoda", "Octawia", 'WS124')
-s2 = Samochod("Toyota", "Yaris", 'WWL642', o3)
+s2 = Samochod("Toyota", "Yaris", 'WWL642')
 
 s.wypiszMnie()
 s2.wypiszMnie()
 
+print(f'ile kol ma samochod {s.ile_kol}')
+
 print(s2)
 print(repr(s2))
+
+s.silnik = "Moj super v8"
 
 # lista = [1,2,3]
 # print(lista)
@@ -171,14 +180,14 @@ print(f'Rectangle {r.dlugosc_a}, {r.b}')
 # stworz właściwość BMI który będzie tylko do odczytu
 # wzor na bmi = masa / (wzrost ** 2)   wzrost podany w metrach 1.84
 # Powołaj do życia obiekt tej klasy i wyświetl na konsoli obliczone BMI.
-
+# dodac metode __str__
 class Zawodnik:
     def __init__(self, wzrost: float, masa: float, imie: str):
         self.__wzrost = wzrost
         self._masa_zawodnika = masa
         self._imie = imie
 
-    @property
+    @cached_property
     def BMI(self) -> float:
         return self._masa_zawodnika / (self.__wzrost ** 2)
 
@@ -190,21 +199,51 @@ class Zawodnik:
     def waga(self, value: float):
         self._masa_zawodnika = value
 
+    def __str__(self):
+        return f'Zawodnik: {self._imie}, o BMI={self.BMI:.3f}'
+
+    @staticmethod
+    def nie_uzywam_atrybutow(info: str):
+        print(info)
+
+    @classmethod
+    def create_from_string(cls, text: str):
+        dane = text.strip().split(';')
+        if len(dane) == 3:
+            wzrost_cm, waga_lbs, imie = dane
+            z = cls(wzrost=int(wzrost_cm) / 100, masa=int(waga_lbs) * 0.454, imie=imie)
+            return z
+
+
+    # odczytali dane z pliku dane.txt
+    # zbudowali sobie liste zawodnikow (jako obietky klasy) przy uzyciu  @classmethod
+    def create_from_file(cls, path_to_file: str) -> list:
+
 
 z = Zawodnik(1.8, 80, "Jan")
 
-print(z.BMI)
+print(z)
 z.waga = 75
-print(z.BMI)
+print(z)
+
+Zawodnik.nie_uzywam_atrybutow()
 
 
+z3 = Zawodnik.create_from_string("176;150;Paweł")
+print(z3)
 
 
+class MathUtils:
+    @staticmethod
+    def add(x, y):
+        return x + y
+
+    @staticmethod
+    def multiply(x, y):
+        return x * y
 
 
-
-
-
+MathUtils.add(2,2)
 
 
 
@@ -222,8 +261,8 @@ print(z.BMI)
 #
 #     def add_item(self, item):
 #         self.items.append(item)
-#
-# # Tworzymy dwie instancje klasy Bag
+
+# Tworzymy dwie instancje klasy Bag
 # bag1 = Bag()
 # bag2 = Bag()
 #
@@ -236,11 +275,20 @@ print(z.BMI)
 ########## Atrybuty domyślne mutowalne ###################
 
 # wersja poprawna
-# class Bag:
-#     def __init__(self, items=None):
-#         if items is None:
-#             items = []
-#         self.items = items
-#
-#     def add_item(self, item):
-#         self.items.append(item)
+class Bag:
+    def __init__(self, items: list=None):
+        if items is None:
+            items = []
+        self.items = items
+
+    def add_item(self, item):
+        self.items.append(item)
+
+bag1 = Bag()
+bag2 = Bag()
+
+bag1.add_item("jabłko")
+bag2.add_item("banan")
+
+print("Zawartość bag1:", bag1.items)
+print("Zawartość bag2:", bag2.items)
