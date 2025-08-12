@@ -234,14 +234,21 @@ if __name__ == '__main__':
 
     # Stwórz dekorator, który sprawdza, czy użytkownik ma odpowiednie uprawnienia
     # do wywołania funkcji. Jeśli nie, wyświetli komunikat o braku dostępu.
+    def check_permissions(required_permission: str):
+        def decorator(fun):
+            @functools.wraps(fun)
+            def inner(user: dict[str, str], *args, **kwargs):
+                if user['permission'] == required_permission:
+                    return fun(user, *args, **kwargs)
+                else:
+                    print("Brak dostępu")
+
+            return inner
+
+        return decorator
 
 
-
-
-
-
-
-    user1 = {'name': 'Jan', 'permission': 'admin'}
+    admin = {'name': 'Jan', 'permission': 'admin'}
     user2 = {'name': 'Anna', 'permission': 'user'}
 
 
@@ -259,8 +266,105 @@ if __name__ == '__main__':
     def admin_function_2(user, user_to_delete):
         print(f"Usuwam {user_to_delete}!")
 
-    admin_function(user1)  # Output: Witaj, adminie!
+    admin_function(admin)  # Output: Witaj, adminie!
     admin_function(user2)  # Output: Brak uprawnień do wykonania tej funkcji
     user_function(user2)  # Output: Witaj, użytkowniku!
-    user_function(user1)  # Output: Brak uprawnień do wykonania tej funkcji
+    user_function(admin)  # Output: Brak uprawnień do wykonania tej funkcji
 
+    admin_function_2(admin, "Anna")
+
+
+    def timeit(repeats: int = 10):
+        def decorator(func):
+            @functools.wraps(func)
+            def wrapper(*args, **kwargs):
+                times = []
+                for _ in range(repeats):
+                    start_time = time.time()
+                    result = func(*args, **kwargs)
+                    end_time = time.time()
+                    times.append(end_time - start_time)
+
+                avg_time = statistics.mean(times)
+                std_dev = statistics.stdev(times) if len(times) > 1 else 0.0
+
+                print(f"Function '{func.__name__}' executed {repeats} times.")
+                print(f"Average execution time: {avg_time:.6f} seconds")
+                print(f"Standard deviation: {std_dev:.6f} seconds")
+
+                return result
+
+            return wrapper
+
+        return decorator
+
+
+    @timeit(repeats=50)
+    def slow_function(seconds):
+        print(f"Sleeping for {seconds} seconds...")
+        time.sleep(seconds)
+        return f"Slept for {seconds} seconds"
+
+
+    # print(slow_function(0.1))
+
+
+
+
+
+    def cache(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            cache_key = args + tuple(kwargs.values())
+            if cache_key not in wrapper.cache_dict:
+                wrapper.cache_dict[cache_key] = func(*args, **kwargs)
+                return wrapper.cache_dict[cache_key]
+            else:
+                print("Using cached value")
+                return wrapper.cache_dict[cache_key]
+
+        wrapper.cache_dict = {}
+        return wrapper
+
+
+    @cache
+    def mnozenie(a: float, b: float) -> float:
+        print(f'Wynik: {a * b}')
+        return a * b
+
+
+    mnozenie(2, 2)
+    mnozenie(2, 2)
+
+    mnozenie(2, 3)
+    mnozenie(3, 2)
+
+    mnozenie(b=3, a=2)
+
+    print(mnozenie.cache_dict)
+
+
+
+
+    # napisz decorator ktory bedzie liczył ile razy dana funckja została wywołana i będzie wypisywał przy każdym jej
+    # wywołaniu tą informajcę oraz nazwe funkcje na konsolę  (func.__name__)
+
+
+
+
+
+
+
+
+    def hello():
+        print("Hello world")
+
+
+    hello()
+    hello()
+    hello()
+    hello()
+
+    # https://realpython.com/primer-on-python-decorators/#more-real-world-examples
+    # https://refactoring.guru/pl/design-patterns/catalog
+    # https://github.com/lord63/awesome-python-decorator
