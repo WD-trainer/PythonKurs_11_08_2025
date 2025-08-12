@@ -488,6 +488,20 @@ class Timer:
         self.start = 0
 
 
+    def __enter__(self):
+        print("Zaczynam pomiar")
+        self.start = self.timer()
+        return self
+
+    def __exit__(self, *args):
+        print("Koncze pomiar")
+        end = self.timer()
+        self.elapsed = end - self.start
+        self.elapsed *= 1000  # convert to miliseconds
+        if self.verbose:
+            print(f"Measured time: {self.elapsed}")
+
+
 
 
 
@@ -497,3 +511,15 @@ with Timer(verbose=True) as t:
 
 
 print(f'Ta funkcja trwała {t.elapsed}')
+
+
+
+
+
+
+# Dokumentowanie klas
+from pandas import DataFrame
+
+# https://www.sphinx-doc.org/en/master/
+# https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
+#####################
