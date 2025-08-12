@@ -109,5 +109,77 @@ if __name__ == '__main__':
 
     moja_suma(1,2,3,3,4,5)
 
-    
+
     # Napisz funkcje która przed i po wykonaniu innej funkcji wypisze 25 '*'     print("*" * 25)
+    def star(func):
+        def inner(*args, **kwargs):
+            print("*" * 25)
+            func(*args, **kwargs)
+            print("*" * 25)
+
+        return inner
+
+
+    def percent(func):
+        def inner(*args, **kwargs):
+            print("%" * 15)
+            func(*args, **kwargs)
+            print("%" * 15)
+
+        return inner
+
+
+    @percent
+    @star
+    def printer(msg: str):    # printer = percent(star(printer))
+        print(msg)
+
+    @star
+    def printer_2(msg: str, count: int):
+        print(msg * count)
+
+    printer_2("Hello World", 2)
+
+    printer("Hello world")
+
+
+    def hello_decorator(func):
+        def inner1(*args, **kwargs):
+            print("before Execution")
+
+            # getting the returned value
+            returned_value = func(*args, **kwargs)
+            print("after Execution")
+
+            # returning the value to the original frame
+            return returned_value
+
+        return inner1
+
+    @hello_decorator
+    def sum_two_numbers(a: int, b: int) -> int:          # sum_two_numbers = hello_decorator(sum_two_numbers)
+        print("Inside the function sum_two_numbers")
+        return a + b
+
+    result = sum_two_numbers(12, 4)
+    print(f"Wynik dodawania: 12 + 4 = {result}")
+
+
+    # Dodaj dekorator który zliczy czas wykonywania funkcji z parametrami.
+    # Zaloguj na konsole wszystkie przekazane parametry (czyli args i kwargs)
+    # wypisz wynik opakowanej funkcji
+
+
+
+
+
+
+
+    def opakuj_mnie_z_parametrami(x, napis_do_wypisania):
+        for i in range(x):
+            time.sleep(1)
+        print(f"Robie ciekawe rzeczy w Pythonie {napis_do_wypisania}")
+        return 10
+
+
+    opakuj_mnie_z_parametrami(x=1, napis_do_wypisania="jestem cool")
