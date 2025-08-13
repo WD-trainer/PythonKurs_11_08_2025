@@ -6,7 +6,9 @@ import click ### https://github.com/pallets/click
 
 ### opakowanie tej funkcji przy pomocy bibloteki click,
 # katalog_startowy miał domyslna wartosc ".", fraza bedzie miała prompt, dopisz help do obu opcji
-
+@click.command()
+@click.option("--katalog_startowy", default=".", help="Katalog z ktorego zaczynamy przeszukiwac drzewo plikow")
+@click.option("--fraza", prompt="Czego szukasz:", help="Fragment nazwy ktorej szukasz")
 def znajdz_pliki_i_katalogi(katalog_startowy: str, fraza: str):
     """
     Ta funckja zajmuje sie znajdowaniem katalowgo i plikow. Ignoruje wielkosci liter
