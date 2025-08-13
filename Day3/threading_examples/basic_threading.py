@@ -45,10 +45,12 @@ if __name__ == "__main__":
 
     # thread1.start()
     # thread2.start()
-    #
+    # #
     # thread1.join()
     # thread2.join()
     # print("Done!")
+    #
+    # thread3.start()
 
 
 
@@ -76,15 +78,15 @@ if __name__ == "__main__":
     # Wykonujemy główny wątek
     main_task()
 
-    thread1 = threading.Thread(target=print_numbers)
-    thread1.start()
-
-    time.sleep(5)
-    thread2 = threading.Thread(target=print_letters, daemon=True)  ### daemon=True
-
-    thread2.start()
-
-    thread1.join() # nawet jak nie czekamy na zwykły wątek to program nie może zakończyć się szybciej
+    # thread1 = threading.Thread(target=print_numbers)
+    # thread1.start()
+    #
+    # time.sleep(5)
+    # thread2 = threading.Thread(target=print_letters, daemon=True)  ### daemon=True
+    #
+    # thread2.start()
+    #
+    # thread1.join() # nawet jak nie czekamy na zwykły wątek to program nie może zakończyć się szybciej
     # thread2.join()
 
     print("Program zakończony.")
