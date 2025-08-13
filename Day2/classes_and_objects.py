@@ -601,13 +601,17 @@ print("*" * 50)
 # dodaj interfejs ILiveOn ktory bedzie posiadał funkcje abstrakcyjna where_I_live()
 # dodac interfejs do klas pochodnych klasy animal (odziedziczyć klase interfesju i zaimplementować metode abstrakcyjna w klasach pochodnych)
 
+class ILiveOn(ABC):
+    @abstractmethod
+    def where_I_live(self): ...
 
-class Animal():
+class Animal(ABC):
     def __init__(self, name):
         self.name = name
 
+    @abstractmethod
     def speak(self):
-        print("generyczne zwierze")
+        pass
 
     def eat(self):
         print("eating")
@@ -616,22 +620,28 @@ class Animal():
         return f'My name is {self.name}'
 
 
-class Dog(Animal):
+class Dog(Animal, ILiveOn):
     def speak(self):
         print(f"{self.name} barks")
 
-class Cat(Animal):
+    def where_I_live(self):
+        print("In dog house outside")
+
+class Cat(Animal, ILiveOn):
     def speak(self):
         print(f"{self.name} meows")
 
+    def where_I_live(self):
+        print("In my owner bed")
 
 
 
-animal = Animal("Generic Animal") # !!!!
+
+#animal = Animal("Generic Animal") # !!!!
 dog = Dog("Buddy")
 cat = Cat("Whiskers")
 
-animal.speak() # !!!!
+#animal.speak() # !!!!
 dog.speak()
 cat.speak()
 cat.eat()
