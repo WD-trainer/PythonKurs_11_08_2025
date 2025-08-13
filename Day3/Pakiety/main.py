@@ -4,16 +4,16 @@ import sys
 import pandas as pd
 
 
-# # Importowanie całego modułu lub pakietu:
+# Importowanie całego modułu lub pakietu:
 # import my_package.module1
 # my_package.module1.function1()
 #
 #
-# # Importowanie konkretnej funkcji lub klasy:
+# Importowanie konkretnej funkcji lub klasy:
 # from my_package.module1 import function1
 # function1()
 #
-# #Importowanie z aliasem (krótsza nazwa):
+#Importowanie z aliasem (krótsza nazwa):
 # import my_package.module1 as m1
 # m1.function1()
 #
@@ -26,18 +26,29 @@ import pandas as pd
 
 
 # from PodPakiet import functions
+
 # from PodPakiet.functions import times3
-
-# from Day2.classes_and_objects import Zawodnik
-
-
+from PodPakiet import times3
+from PodPakiet.functions import _times4
 
 
+# from Day2.classes_and_objects import Zawodnik  # uwaga wykonuje sie cały kod z tego skryptu
 
 
+# import sys, os
+# sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 
+# Stwórz pakiet zawierający moduł który bedzie zawierał funkcję przyjmującą wzrost i masę a zwracającą bmi.
+# Zaimportuj i wywołaj tę funkcję w taki sposób by przy jej wywołaniu nie trzeba było podawać nazwy pakietu ani modułu.
+# W tym module dopisz funkcje walidacji danych dla funkcji BMI - czy waga < 200 i 1.00 < wzrost < 2.50. Jesli warunek nie jest spelniony
+# rzuc wyjatkiem Value error. # raise ValueError("wiadomosc bledu")
+# W pliku __init__.py ustaw zmienna __all__ tak aby tylko funkcja liczac BMI byla widoczna po imporcie pakietu
+# dodajcie print do pliku __init__.py
 
+#def calculate_bmi(height: float, weight: float) -> float:
+#    _validate_data(height, weight)
+#    return weight / (height / 100) ** 2
 
 
 
@@ -45,18 +56,18 @@ if __name__ == "__main__":
     df = pd.DataFrame()
 
     # print(functions.times3(3))
-    # print(times3(3))
+    print(times3(3))
 
-    # print(_times4(4))
+    print(_times4(4))
 
-    # try:
-    #     height = [2.11, 1.80]
-    #     weight = [100, 400, 120]
-    #     for h, w in zip(height, weight):
-    #         bmi_result = calculate_bmi(h, w)
-    #         print("Your BMI is:", bmi_result)
-    # except ValueError as e:
-    #     print("Error:", e)
+    try:
+        height = [2.11, 1.80]
+        weight = [100, 400, 120]
+        for h, w in zip(height, weight):
+            bmi_result = calculate_bmi(h, w)
+            print("Your BMI is:", bmi_result)
+    except ValueError as e:
+        print("Error:", e)
 
     # dokumentacja i sprawdzanie infomracji
     # help(calculate_bmi)
