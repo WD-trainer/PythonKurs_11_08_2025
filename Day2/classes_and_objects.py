@@ -11,7 +11,6 @@ from dataclasses import dataclass
 import pandas as pd
 from functools import total_ordering, cached_property   # fills in missing comparison methods (<, <=, >, >=) based on just two: either __eq__ and one other comparison method like __lt__ or __gt__.
 
-from exceptiongroup import catch
 
 
 class Osoba(object):
