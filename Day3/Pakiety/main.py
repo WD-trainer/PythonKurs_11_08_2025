@@ -51,6 +51,8 @@ from PodPakiet.functions import _times4
 #    return weight / (height / 100) ** 2
 
 
+from BodyMassIndex import calculate_bmi
+import BodyMassIndex
 
 if __name__ == "__main__":
     df = pd.DataFrame()
@@ -70,14 +72,14 @@ if __name__ == "__main__":
         print("Error:", e)
 
     # dokumentacja i sprawdzanie infomracji
-    # help(calculate_bmi)
+    help(calculate_bmi)
 
     # import BodyMassIndex
     # Wywołanie docstringa pakietu
-    # print(BodyMassIndex.__doc__)
+    print(BodyMassIndex.__doc__)
 
     # Sprawdzanie wersji pakietu
-    # print("Package version:", BodyMassIndex.__version__)  # scipy==1.0
+    print("Package version:", BodyMassIndex.__version__)  # scipy==1.0
 
     # print(os.getenv("PYTHONPATH")) # tylko w trybie DEBUG pycharm ustawia tą zmienną,
     # ale możemy ją też mieć ustawioną globalnie w systemie, jeśli korzystamy z venv, conda lub innych srodowisk wirtualnych to nie ustawiamy tej zmiennej
