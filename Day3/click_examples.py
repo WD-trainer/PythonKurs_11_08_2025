@@ -4,16 +4,16 @@ import os
 import click ### https://github.com/pallets/click
 
 
-# @click.command()
-# @click.option("--count", default=1, help="Number of greetings.")
-# @click.option("--name", prompt="Your name", help="The person to greet.")
-# def hello(count, name):
-#     """Simple program that greets NAME for a total of COUNT times."""
-#     for _ in range(count):
-#         click.echo(f"Hello, {name}!")
-#
-# if __name__ == '__main__':
-#     hello()
+@click.command()
+@click.option("--count", default=1, help="Number of greetings.")
+@click.option("--name", prompt="Your name", help="The person to greet.")
+def hello(count, name):
+    """Simple program that greets NAME for a total of COUNT times."""
+    for _ in range(count):
+        click.echo(f"Hello, {name}!")
+
+if __name__ == '__main__':
+    hello()
 
 
 
@@ -26,7 +26,7 @@ import click ### https://github.com/pallets/click
 #     """Simulate a long-running task."""
 #     with click.progressbar(length=count, label='Processing...') as bar:
 #         for i in range(count):
-#             time.sleep(0.1)  # Simulate some work
+#             time.sleep(1.1)  # Simulate some work
 #             bar.update(1)
 #
 # if __name__ == "__main__":
@@ -82,7 +82,7 @@ import click ### https://github.com/pallets/click
 
 
 
-# Before run export USER_NAME=Alice
+# # Before run export USER_NAME=Alice
 # import click
 # import os
 #
