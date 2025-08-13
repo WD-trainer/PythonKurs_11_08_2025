@@ -152,15 +152,18 @@ if __name__ == '__main__':
     print(next(generator_potegi))
     print(next(generator_potegi))
 
-    #  Stworz generator ktory bedzie przyjmowal przez parametr ilosc elementow a nastepnie zwracal elementy o tresci
+    #  Stworz generator ktory bedzie przyjmowal przez parametr liczba elementow a nastepnie zwracal elementy o tresci
     #  f'element o indeksie {x}'( gdzie x bedzie numerem podawanego elementu) czekajac 0.1 sekunde przed zwrotem kazdego elementu (time.sleep(0.1)).
+    def generator_elementow(liczba: int):
+        for i in range(liczba):
+            time.sleep(0.1)
+            yield f'element o indeksie {i}'
 
 
-
-
-
-
-
+    genrator = generator_elementow(3)
+    print(next(genrator))
+    next(genrator)
+    print(next(genrator))
 
 
     def is_prime(num):
