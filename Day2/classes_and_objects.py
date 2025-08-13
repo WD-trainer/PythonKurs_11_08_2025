@@ -714,7 +714,62 @@ book.return_item()
 print(f"Czy jest wypozyczona {book.is_borrowed()}")
 
 
+# Python używa algorytmu C3 linearization (MRO - Method Resolution Order) do ustalania kolejności przeszukiwania klas bazowych.
+class A:
+    def do_something(self):
+        print("A")
 
+class B(A):
+    def do_something(self):
+        print("B")
+        super().do_something()
+
+class C(A):
+    def do_something(self):
+        print("C")
+        super().do_something()
+
+class D(B, C):
+    def do_something(self):     # co jesli D nie bedzie miala takiej metody
+        print("D")
+        super().do_something()
+
+
+d = D()
+d.do_something()
+
+# Analiza MRO:
+# Klasa D dziedziczy po B i C:
+#
+# Kolejność bazowa w definicji klasy to B, potem C.
+# C3 Linearization dla D:
+#
+# Startujemy od D: [D]
+# Dodajemy MRO klasy B: [B, A, object]
+# Dodajemy MRO klasy C: [C, A, object]
+# Łączymy te listy zgodnie z zasadą C3:
+#
+# D -> B -> C -> A -> object
+
+print(D.mro())
+
+
+
+class X:
+    pass
+
+class Y(X):
+    pass
+
+class Z(Y):
+    pass
+
+# class W(Y, Z):  # Hierarchia jest niezgodna
+#     pass
+# TypeError: Cannot create a consistent method resolution order (MRO) for bases Y, Z
+
+class V(Z, Y):  # Hierarchia jest zgodna
+    pass
 
 
 # https://realpython.com/solid-principles-python/#single-responsibility-principle-srp

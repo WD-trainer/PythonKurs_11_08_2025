@@ -60,6 +60,7 @@ class IncrementIterator(Iterator):
         return self.i
 
 
+print("=== IncrementIterator ===")
 for e in IncrementIterator(10):
     print(e)
 
@@ -102,89 +103,92 @@ class MyListIterator:
         return val
 
 
-# print("\n=== Iterowalny obiekt MyList ===")
-# my_list = MyList(["A", "B", "C"])
-# for item in my_list:
-#     print(item)
+print("\n=== Iterowalny obiekt MyList ===")
+my_list = MyList(["A", "B", "C"])
+for item in my_list:
+    print(item)
 
-# for item in my_list:
-#     print(item)
+for item in my_list:
+    print(item)
 
 # Jak to działa z iteratorem
-# nasz_iterator = IncrementIterator(5)
-# for e in nasz_iterator:
-#     print(e)
-# for e in nasz_iterator:
-#     print(e)
+print("\n=== Iterator ===")
+nasz_iterator = IncrementIterator(5)
+for e in nasz_iterator:
+    print(e)
+for e in nasz_iterator:
+    print(e)
 
-# class TreeNode:
-#     def __init__(self, value, left=None, right=None):
-#         self.value = value
-#         self.left = left
-#         self.right = right
-#
-#
-# tree = TreeNode(1,
-#                 TreeNode(2,
-#                                 TreeNode(4),
-#                                 TreeNode(5)),
-#
-#                 TreeNode(3,
-#                             None,
-#                                 TreeNode(6)))
-#
-#
-# class TreeIterator:
-#     def __init__(self, root):
-#         self.stack = [root] if root else []
-#
-#     def __iter__(self):
-#         return self
-#
-#     def __next__(self):
-#         if not self.stack:
-#             raise StopIteration
-#
-#         node = self.stack.pop()
-#
-#         if node.right:
-#             self.stack.append(node.right)
-#         if node.left:
-#             self.stack.append(node.left)
-#
-#         return node.value
-#
-#
-# iterator = TreeIterator(tree)
-#
-# for value in iterator:
-#     print(value)
+class TreeNode:
+    def __init__(self, value, left=None, right=None):
+        self.value = value
+        self.left = left
+        self.right = right
 
 
-# import torch
-# from torch.utils.data import DataLoader, Dataset
-#
-#
-# # Definiujemy niestandardowy dataset
-# class MyDataset(Dataset):
-#     def __init__(self):
-#         self.data = torch.arange(10)  # Tworzymy proste dane od 0 do 9
-#
-#     def __len__(self):
-#         return len(self.data)
-#
-#     def __getitem__(self, idx):
-#         return self.data[idx]
-#
-# # Tworzymy dataset
-# dataset = MyDataset()
-#
-# # Używamy DataLoader, który tworzy iterator
-# dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
-#
-# # Iterujemy po DataLoader (wykorzystując iterator wbudowany w DataLoader)
-# for batch in dataloader:
-#     print(batch)
+tree = TreeNode(1,
+                TreeNode(2,
+                                TreeNode(4),
+                                TreeNode(5)),
+
+                TreeNode(3,
+                            None,
+                                TreeNode(6)))
+
+
+class TreeIterator:
+    def __init__(self, root):
+        self.stack = [root] if root else []
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if not self.stack:
+            raise StopIteration
+
+        node = self.stack.pop()
+
+        if node.right:
+            self.stack.append(node.right)
+        if node.left:
+            self.stack.append(node.left)
+
+        return node.value
+
+
+iterator = TreeIterator(tree)
+
+print("\n=== TreeIterator ===")
+for value in iterator:
+    print(value)
+
+
+import torch
+from torch.utils.data import DataLoader, Dataset
+
+
+# Definiujemy niestandardowy dataset
+class MyDataset(Dataset):
+    def __init__(self):
+        self.data = torch.arange(10)  # Tworzymy proste dane od 0 do 9
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.data[idx]
+
+# Tworzymy dataset
+dataset = MyDataset()
+
+# Używamy DataLoader, który tworzy iterator
+dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+
+print("\n=== Torch MyDataset ===")
+# Iterujemy po DataLoader (wykorzystując iterator wbudowany w DataLoader)
+for batch in dataloader:
+    print(batch)
 
 
 
@@ -203,9 +207,9 @@ class ListaZawodnikow:
 
 
 
-# nasza_lista = ListaZawodnikow("dane.txt")
-# for z in nasza_lista:
-#     print(z)
+nasza_lista = ListaZawodnikow("dane.txt")
+for z in nasza_lista:
+    print(z)
 
 
 
