@@ -63,30 +63,30 @@ if __name__ == '__main__':
     # -------------------------
     # generatory skończone
     # -------------------------
-    def reverse_string(text):
+    def reverse_string(text: str):
         """Zwraca znaki w odwrotnej kolejności"""
         for ch in reversed(text):
             yield ch
 
-    # print("\n=== reverse_string ===")
-    # for ch in reverse_string("Python"):
-    #     print(ch)
+    print("\n=== reverse_string ===")
+    for ch in reverse_string("Python"):
+        print(ch)
 
 
     # -------------------------
     # generatory nieskończone
     # -------------------------
-    def infinite_counter(start=0):
+    def infinite_counter(start: int=0):
         """Generator nieskończony – liczy w górę"""
         while True:
             yield start
             start += 1
 
 
-    # print("\n=== infinite_counter (pierwsze 5 liczb) ===")
-    # counter = infinite_counter(10)
-    # for _ in range(5):
-    #     print(next(counter))  # ręczne pobieranie
+    print("\n=== infinite_counter (pierwsze 5 liczb) ===")
+    counter = infinite_counter(10)
+    for _ in range(5):
+        print(next(counter))  # ręczne pobieranie
 
 
     # -------------------------
@@ -99,18 +99,18 @@ if __name__ == '__main__':
             i += 1
 
 
-    # print("\n=== Liczymy po 10 ===")
-    #
-    # generator_tens = tens()
-    # print(generator_tens.__next__())
-    # print(generator_tens.__next__())
-    #
-    # print("And now in for loop")
-    #
-    # for ten in generator_tens:
-    #     print(ten)
-    #     if ten > 100:
-    #         break
+    print("\n=== Liczymy po 10 ===")
+
+    generator_tens = tens()
+    print(generator_tens.__next__())
+    print(generator_tens.__next__())
+
+    print("And now in for loop")
+
+    for ten in generator_tens:
+        print(ten)
+        if ten > 100:
+            break
 
 
     # Generatory mogą symulować strumienie danych, np. sensory zbierające dane.
@@ -120,9 +120,9 @@ if __name__ == '__main__':
             time.sleep(0.1)
 
 
-    # stream = data_stream()
-    # for _ in range(5):
-    #     print(next(stream))  # Symuluje odbiór danych co sekundę
+    stream = data_stream()
+    for _ in range(5):
+        print(next(stream))  # Symuluje odbiór danych co sekundę
 
 
     # -------------------------
@@ -134,23 +134,23 @@ if __name__ == '__main__':
             yield i
 
 
-    # big_list = list(range(1_000_000))  # zużywa dużo pamięci
-    # big_gen = big_range(1_000_000)  # praktycznie zerowe zużycie pamięci
-    #
-    # print("\nRozmiar listy:", sys.getsizeof(big_list), "B")
-    # print("Rozmiar generatora:", sys.getsizeof(big_gen), "B")
+    big_list = list(range(1_000_000))  # zużywa dużo pamięci
+    big_gen = big_range(1_000_000)  # praktycznie zerowe zużycie pamięci
+
+    print("\nRozmiar listy:", sys.getsizeof(big_list), "B")
+    print("Rozmiar generatora:", sys.getsizeof(big_gen), "B")
 
     # -------------------------
     # generator a czas wykonania (lazy evaluation)
     # -------------------------
-    # potegi2 = [2 ** i for i in range(100)]
-    #
-    # generator_potegi = (2 ** i for i in range(1000000000000))
-    #
-    # print(generator_potegi)
-    # print(next(generator_potegi))
-    # print(next(generator_potegi))
-    # print(next(generator_potegi))
+    potegi2 = [2 ** i for i in range(100)]
+
+    generator_potegi = (2 ** i for i in range(1000000000000))
+
+    print(generator_potegi)
+    print(next(generator_potegi))
+    print(next(generator_potegi))
+    print(next(generator_potegi))
 
     #  Stworz generator ktory bedzie przyjmowal przez parametr ilosc elementow a nastepnie zwracal elementy o tresci
     #  f'element o indeksie {x}'( gdzie x bedzie numerem podawanego elementu) czekajac 0.1 sekunde przed zwrotem kazdego elementu (time.sleep(0.1)).
