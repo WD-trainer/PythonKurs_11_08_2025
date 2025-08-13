@@ -506,7 +506,7 @@ class Timer:
 
 
 with Timer(verbose=True) as t:
-    time.sleep(3)
+    # time.sleep(3)
     print("Moja bardzo długa funkcja")
 
 
@@ -523,3 +523,167 @@ from pandas import DataFrame
 # https://www.sphinx-doc.org/en/master/
 # https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html
 #####################
+
+class IDraw(ABC):
+    @abstractmethod
+    def drawing(self):
+        pass
+
+
+class Figure(ABC):
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+
+    def give_name(self):
+        print(f"Figure {self.name}, {self.color}")
+
+    @abstractmethod
+    def area(self):
+        pass
+
+
+
+class Squre(Figure, IDraw):
+    def __init__(self, lenght:float):
+        super().__init__("Squre", "red")
+        self.lenght = lenght
+
+    def area(self):
+        return self.lenght ** 2
+
+    def drawing(self):
+        print("**")
+        print("**")
+
+
+class Rectangle(Figure, IDraw):
+    def __init__(self, a:float, b:float, *args, **kwargs):
+        super().__init__("Rectangle", *args, **kwargs)
+        self.a = a
+        self.b = b
+
+    def area(self):
+        return self.a * self.b
+
+    def drawing(self):
+        print("****")
+        print("****")
+
+
+class SpecialRectangle(Rectangle):
+    def __init__(self, a: float, b: float, *args, **kwargs):
+        super().__init__(a,b, *args, **kwargs)
+
+    def area(self):
+        return self.a * self.b * 2
+
+    def drawing(self):
+        print("****" * 2)
+        print("****" * 2)
+
+
+ #f = Figure("Nazwa") --- nie dozwolne tworzenie instancji klasy abstrakcyjnej
+
+figury =  [Rectangle(2,3, color="purple"), Squre(50), Rectangle(6,8, "red")]
+
+for f in figury:
+    f.give_name()
+    print(f.area())
+    f.drawing()
+
+
+
+print("*" * 50)
+
+# zmien klase animal na klase abstrakcyjna
+# zmien metode speak na metode abstrakcyjna
+# dodaj interfejs ILiveOn ktory bedzie posiadał funkcje abstrakcyjna where_I_live()
+# dodac interfejs do klas pochodnych klasy animal (odziedziczyć klase interfesju i zaimplementować metode abstrakcyjna w klasach pochodnych)
+
+
+class Animal():
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print("generyczne zwierze")
+
+    def eat(self):
+        print("eating")
+
+    def __str__(self):
+        return f'My name is {self.name}'
+
+
+class Dog(Animal):
+    def speak(self):
+        print(f"{self.name} barks")
+
+class Cat(Animal,):
+    def speak(self):
+        print(f"{self.name} meows")
+
+
+
+
+
+
+
+################################## Example of mixin
+
+class BorrowableMixin:
+    def __init__(self):
+        self._borrowed = False
+
+    def borrow(self):
+        if self._borrowed:
+            raise Exception("Item already borrowed")
+        self._borrowed = True
+
+    def return_item(self):
+        if not self._borrowed:
+            raise Exception("Item not borrowed")
+        self._borrowed = False
+
+    def is_borrowed(self):
+        return self._borrowed
+
+
+class Book:
+    def __init__(self, title, author):
+        self.title = title
+        self.author = author
+
+    def info(self):
+        return f"Book: {self.title} by {self.author}"
+
+
+class DVD:
+    def __init__(self, title, director):
+        self.title = title
+        self.director = director
+
+    def info(self):
+        return f"DVD: {self.title}, directed by {self.director}"
+
+
+class BorrowableBook(Book, BorrowableMixin):
+    def __init__(self, title, author):
+        Book.__init__(self, title, author)
+        BorrowableMixin.__init__(self)
+
+class BorrowableDVD(DVD, BorrowableMixin):
+    def __init__(self, title, director):
+        DVD.__init__(self, title, director)
+        BorrowableMixin.__init__(self)
+
+
+book = BorrowableBook("1984", "George Orwell")
+dvd = BorrowableDVD("Inception", "Christopher Nolan")
+
+print(book.info())
+book.borrow()
+print(f"Czy jest wypozyczona {book.is_borrowed()}")
+book.return_item()
+print(f"Czy jest wypozyczona {book.is_borrowed()}")
