@@ -193,6 +193,9 @@ for batch in dataloader:
 
 
 # uzupełnic klase lista zwodnikow o metody __iter__ oraz __next__
+
+# Jako zadanie domowe utwórz osobną klasę iteratora (ListaZawodnikówIterator) i zmień implementację methody __iter__ tak
+# aby zwracała obiekt klasy ListaZawodnikówIterator (usuń methodę __next__ z klasy ListaZawodników)
 class ListaZawodnikow:
     def __init__(self, path: str):
         self.zawodnicy = []
@@ -203,6 +206,15 @@ class ListaZawodnikow:
                     imie, waga, wzrost = dane
                     self.zawodnicy.append(Zawodnik(masa=float(waga), wzrost=float(wzrost), imie=imie))
         self.index = 0
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == len(self.zawodnicy):
+            raise StopIteration
+        self.index += 1
+        return self.zawodnicy[self.index - 1]
 
 
 
