@@ -1,6 +1,7 @@
 import random
 import time
 import sys
+import itertools
 
 """
 GENERATORY w Pythonie
@@ -175,39 +176,45 @@ if __name__ == '__main__':
         return True
 
     # napisz generator ktory bedzie zwracał nieskonczenie wiele liczb pierwszych
+    def prime_numbers():
+        num = 2
+        while True:
+            if is_prime(num):
+                yield num
+            num += 1
 
-    # generator_of_primes = prime_numbers()
-    #
-    # for i in range(20):
-    #     print(next(generator_of_primes))
+    generator_of_primes = prime_numbers()
+
+    for i in range(20):
+        print(next(generator_of_primes))
 
 
     # -------------------------
     # Przykłady praktyczne
     # -------------------------
-    # def read_lines_in_batches(file_path: str, batch_size: int = 3) -> list[str]:
-    #     with open(file_path) as file:
-    #         while True:
-    #             batch = []
-    #             for _ in range(batch_size):
-    #                 line = file.readline()
-    #                 if not line:
-    #                     break
-    #                 batch.append(line.strip())
-    #             if not batch:
-    #                 break
-    #             yield batch
-    #
-    #
-    # file = r'../Day1/text.txt'
-    # for i, batch in enumerate(read_lines_in_batches(file, batch_size=10)):
-    #     print(f'Batch number {i}: {batch}')
-    #
-    #
-    # def generate_combinations(elements, length):
-    #     return itertools.combinations(elements, length)
-    #
-    #
-    # # Generowanie kombinacji
-    # for combination in generate_combinations([1, 2, 3, 4], 2):
-    #     print(combination)
+    def read_lines_in_batches(file_path: str, batch_size: int = 3) -> list[str]:
+        with open(file_path) as file:
+            while True:
+                batch = []
+                for _ in range(batch_size):
+                    line = file.readline()
+                    if not line:
+                        break
+                    batch.append(line.strip())
+                if not batch:
+                    break
+                yield batch
+
+
+    file = r'../Day1/text.txt'
+    for i, batch in enumerate(read_lines_in_batches(file, batch_size=10)):
+        print(f'Batch number {i}: {batch}')
+
+
+    def generate_combinations(elements, length):
+        return itertools.combinations(elements, length)
+
+
+    # Generowanie kombinacji
+    for combination in generate_combinations([1, 2, 3, 4], 2):
+        print(combination)
