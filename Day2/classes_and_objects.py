@@ -543,7 +543,6 @@ class Figure(ABC):
         pass
 
 
-
 class Squre(Figure, IDraw):
     def __init__(self, lenght:float):
         super().__init__("Squre", "red")
@@ -583,6 +582,7 @@ class SpecialRectangle(Rectangle):
         print("****" * 2)
 
 
+
  #f = Figure("Nazwa") --- nie dozwolne tworzenie instancji klasy abstrakcyjnej
 
 figury =  [Rectangle(2,3, color="purple"), Squre(50), Rectangle(6,8, "red")]
@@ -620,14 +620,29 @@ class Dog(Animal):
     def speak(self):
         print(f"{self.name} barks")
 
-class Cat(Animal,):
+class Cat(Animal):
     def speak(self):
         print(f"{self.name} meows")
 
 
 
 
+animal = Animal("Generic Animal") # !!!!
+dog = Dog("Buddy")
+cat = Cat("Whiskers")
 
+animal.speak() # !!!!
+dog.speak()
+cat.speak()
+cat.eat()
+
+lista_zwierzat = [cat, dog]
+
+for zwierze in lista_zwierzat:
+    zwierze.speak()
+    zwierze.where_I_live()
+    zwierze.eat()
+    print(zwierze)
 
 
 ################################## Example of mixin
@@ -687,3 +702,9 @@ book.borrow()
 print(f"Czy jest wypozyczona {book.is_borrowed()}")
 book.return_item()
 print(f"Czy jest wypozyczona {book.is_borrowed()}")
+
+
+
+
+
+# https://realpython.com/solid-principles-python/#single-responsibility-principle-srp
